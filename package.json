@@ -8,7 +8,7 @@
     "dev": "webpack --watch",
     "server": "http-server dist"
   },
-  "author": "@BenBals",
+  "author": "Ben Bals <benjustusbals+npm@gmail.com> (http://benbals.ninja)",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -16,12 +16,11 @@
     "babel-preset-es2015": "^6.3.13",
     "esprima": "^2.7.2",
     "http-server": "^0.8.5",
-    "webpack": "^1.12.12"
+    "webpack": "^1.12.12",
+    "@cycle/core": "^6.0.2",
+    "@cycle/dom": "^9.0.2"
   },
   "dependencies": {
-    "@cycle/core": "^6.0.2",
-    "@cycle/dom": "^9.0.2",
-    "rx": "^4.0.7",
-    "lodash": "^3.10.1"
+    "rx": "^4.0.7"
   }
 }

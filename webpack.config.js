@@ -1,7 +1,7 @@
 var config = {
-    entry: "./src/index.js",
+    entry: "./src/websocket-driver.js",
     output: {
-        filename: 'bundle.js',
+        filename: 'cycle-websocket-driver.js',
         path: __dirname + '/dist'
     },
     module: {
