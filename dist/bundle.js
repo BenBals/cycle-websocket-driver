@@ -56,20 +56,29 @@
 
 	var _rx2 = _interopRequireDefault(_rx);
 
+	var _websocketDriver = __webpack_require__(63);
+
+	var _websocketDriver2 = _interopRequireDefault(_websocketDriver);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function main(drivers) {
-	    return {
-	        DOM: drivers.DOM.select('input').events('input').map(function (ev) {
+	function main(sources) {
+	    var sinks = {
+	        DOM: sources.ws.map(function (x) {
+	            return x.data;
+	        }).startWith('no message yet').map(function (text) {
+	            return (0, _dom.h)('div', [(0, _dom.h)('p', text), (0, _dom.h)('input', { type: 'text' })]);
+	        }),
+	        ws: sources.DOM.select('input').events('change').map(function (ev) {
 	            return ev.target.value;
-	        }).startWith('').map(function (name) {
-	            return (0, _dom.h)('div', [(0, _dom.h)('input', { type: 'text', value: name }), (0, _dom.h)('p', 'Hello ' + name)]);
 	        })
 	    };
-	};
+	    return sinks;
+	}
 
 	var drivers = {
-	    DOM: (0, _dom.makeDOMDriver)('#app')
+	    DOM: (0, _dom.makeDOMDriver)('#app'),
+	    ws: (0, _websocketDriver2.default)('ws://echo.websocket.org/')
 	};
 
 	_core2.default.run(main, drivers);
@@ -16764,6 +16773,49 @@
 
 	module.exports = exports['default'];
 
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _rx = __webpack_require__(2);
+
+	var _rx2 = _interopRequireDefault(_rx);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function makeWebsocketDriver(url) {
+	    var ws = new WebSocket(url);
+	    return function websocketDriver(requests$) {
+	        var $responses = _rx2.default.Observable.create(function (observer) {
+	            ws.onmessage = function (msg) {
+	                console.log('received message:');
+	                console.log(msg);
+	                observer.onNext(msg);
+	            };
+	            ws.onopen = function (ev) {
+	                return console.log('connection opened');
+	            };
+	            ws.onerror = function (ev) {
+	                return console.log(ev);
+	            };
+	        });
+
+	        requests$.subscribe(function (request) {
+	            console.log('sending message: ' + request);
+	            ws.send(request);
+	        });
+	        return $responses;
+	    };
+	};
+
+	exports.default = makeWebsocketDriver;
 
 /***/ }
 /******/ ]);
