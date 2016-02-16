@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --watch",
+    "dev": "babel src/websocket-driver.js -o dist/cycle-websocket-driver.js",
     "server": "http-server dist"
   },
   "author": "Ben Bals <benjustusbals+npm@gmail.com> (http://benbals.ninja)",
@@ -16,7 +16,6 @@
     "babel-preset-es2015": "^6.3.13",
     "esprima": "^2.7.2",
     "http-server": "^0.8.5",
-    "webpack": "^1.12.12",
     "@cycle/core": "^6.0.2",
     "@cycle/dom": "^9.0.2"
   },
